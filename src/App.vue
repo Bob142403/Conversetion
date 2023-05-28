@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { onMounted, ref } from "vue";
 import { currency } from "./currency";
 import { dailiApi } from "./servers/daili-api";
@@ -16,7 +16,7 @@ onMounted(() => {
   }, 10);
 });
 
-function handleOnPage(ConversionToSec: boolean) {
+function handleOnPage(ConversionToSec) {
   const secCurr =
     conversionInfo.value.Valute[secondCurr.value].Nominal /
     conversionInfo.value.Valute[secondCurr.value].Value;
