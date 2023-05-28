@@ -1,4 +1,4 @@
-export const valute = [
+export const currency = [
   "AUD",
   "AZN",
   "GBP",

@@ -1,40 +1,40 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { valute } from "./valute";
+import { currency } from "./currency";
+import { dailiApi } from "./servers/daili-api";
 
 const first = ref(0);
-const first_curs = ref("TJS");
+const firstCurr = ref("TJS");
 const second = ref(0);
-const second_curs = ref("USD");
-const qwe = ref({});
+const secondCurr = ref("USD");
+const conversionInfo = ref({});
 
 onMounted(() => {
   setInterval(async () => {
-    const baseURL = "https://www.cbr-xml-daily.ru/daily_json.js";
-    const result = await fetch(baseURL);
-    const res = await result.json();
-    qwe.value = res;
+    const response = await dailiApi.getCurrency();
+    conversionInfo.value = response;
   }, 10);
 });
 
-function convertSToF() {
-  const sc =
-    (qwe.value.Valute[second_curs.value].Value * second.value) /
-    qwe.value.Valute[second_curs.value].Nominal;
-  const fr =
-    qwe.value.Valute[first_curs.value].Nominal /
-    qwe.value.Valute[first_curs.value].Value;
-  first.value = fr * sc;
-}
+function handleOnPage(ConversionToSec: boolean) {
+  const secCurr =
+    conversionInfo.value.Valute[secondCurr.value].Nominal /
+    conversionInfo.value.Valute[secondCurr.value].Value;
 
-function convertFToS() {
-  const sc =
-    qwe.value.Valute[second_curs.value].Nominal /
-    qwe.value.Valute[second_curs.value].Value;
-  const fr =
-    (qwe.value.Valute[first_curs.value].Value * first.value) /
-    qwe.value.Valute[first_curs.value].Nominal;
-  second.value = fr * sc;
+  const firCurr =
+    conversionInfo.value.Valute[firstCurr.value].Nominal /
+    conversionInfo.value.Valute[firstCurr.value].Value;
+
+  let answer = secCurr / firCurr;
+
+  if (ConversionToSec) {
+    answer = (1 / answer) * second.value;
+    first.value = answer;
+    return;
+  }
+  answer *= first.value;
+
+  second.value = answer;
 }
 </script>
 
@@ -43,12 +43,12 @@ function convertFToS() {
     <div class="flex mx-auto">
       <select
         id="countries_disabled"
-        v-model="first_curs"
-        @change="convertFToS"
+        v-model="firstCurr"
+        @change="handleOnPage(false)"
         class="rounded-l-lg z-10 flex-shrink-0 inline-flex items-center bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
       >
         <option
-          v-for="(val, key) in valute"
+          v-for="(val, key) in currency"
           :key="key"
           :value="val"
           class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -58,9 +58,8 @@ function convertFToS() {
       </select>
       <div class="relative">
         <input
-          v-model="first"
-          @input="convertFToS"
-          type="number"
+          v-model.number="first"
+          @input="handleOnPage(false)"
           id="search-dropdown"
           class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-100 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
           placeholder="Search"
@@ -71,12 +70,12 @@ function convertFToS() {
 
     <div class="flex mx-auto">
       <select
-        v-model="second_curs"
-        @change="convertFToS"
+        v-model="secondCurr"
+        @change="handleOnPage(false)"
         class="rounded-l-lg z-10 flex-shrink-0 inline-flex items-center bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
       >
         <option
-          v-for="(val, key) in valute"
+          v-for="(val, key) in currency"
           :key="key"
           :value="val"
           class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -87,7 +86,7 @@ function convertFToS() {
       <div class="relative">
         <input
           v-model.number="second"
-          @input="convertSToF"
+          @input="handleOnPage(true)"
           class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-r-lg border-l-gray-100 border-l-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
           placeholder="Search"
           required
