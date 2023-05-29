@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { currency } from "./currency";
 import { dailiApi } from "./servers/daili-api";
@@ -7,7 +7,7 @@ const first = ref(0);
 const firstCurr = ref("TJS");
 const second = ref(0);
 const secondCurr = ref("USD");
-const conversionInfo = ref({});
+const conversionInfo = ref({ Valute: ref() });
 
 onMounted(() => {
   setInterval(async () => {
@@ -16,14 +16,12 @@ onMounted(() => {
   }, 10);
 });
 
-function handleOnPage(ConversionToSec) {
-  const secCurr =
-    conversionInfo.value.Valute[secondCurr.value].Nominal /
-    conversionInfo.value.Valute[secondCurr.value].Value;
+function handleOnPage(ConversionToSec: boolean) {
+  const secCurrency = conversionInfo.value.Valute[secondCurr.value];
+  const secCurr = secCurrency.Nominal / secCurrency.Value;
 
-  const firCurr =
-    conversionInfo.value.Valute[firstCurr.value].Nominal /
-    conversionInfo.value.Valute[firstCurr.value].Value;
+  const frCurrency = conversionInfo.value.Valute[firstCurr.value];
+  const firCurr = frCurrency.Nominal / frCurrency.Value;
 
   let answer = secCurr / firCurr;
 
