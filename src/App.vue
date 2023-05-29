@@ -13,7 +13,7 @@ onMounted(() => {
   setInterval(async () => {
     const response = await dailiApi.getCurrency();
     conversionInfo.value = response;
-  }, 10);
+  }, 1000);
 });
 
 function handleOnPage(ConversionToSec: boolean) {
@@ -43,7 +43,7 @@ function handleOnPage(ConversionToSec: boolean) {
       class="h-full w-full absolute"
     />
     <div
-      class="w-1/3 rounded-lg bg-white/20 border-cyan-600 border-2 justify-center pt-5 px-5 backdrop-opacity-10 z-10 my-auto"
+      class="min-w-min w-1/3 rounded-lg bg-white/20 border-cyan-600 border-2 justify-center pt-5 px-5 backdrop-opacity-10 z-10 my-auto"
     >
       <div class="text-white">
         <p class="text-3xl font-medium dark:text-white mx-3 text-center">
@@ -98,6 +98,11 @@ function handleOnPage(ConversionToSec: boolean) {
                 :value="val"
                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
               >
+                <!-- <img
+                  v-if="val[0] + val[1] !== 'EU' && val[0] + val[1] !== 'XD'"
+                  :src="`https://flagsapi.com/${val[0] + val[1]}/flat/64.png`"
+                  class="w-3 h-3"
+                /> -->
                 {{ val }}
               </option>
             </select>
