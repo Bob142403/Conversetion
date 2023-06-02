@@ -9,10 +9,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.7.13",
+    "@heroicons/vue": "^2.0.18",
     "flowbite": "^1.6.5",
+    "flowbite-vue": "^0.0.10",
     "vue": "^3.2.47"
   },
   "devDependencies": {
+    "@types/node": "^20.2.5",
     "@vitejs/plugin-vue": "^4.1.0",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.24",

@@ -1,5 +1,6 @@
 export const currency = [
   "AUD",
+  "RUS",
   "AZN",
   "GBP",
   "AMD",
@@ -27,7 +28,6 @@ export const currency = [
   "NOK",
   "PLN",
   "RON",
-  "XDR",
   "SGD",
   "TJS",
   "THB",
