@@ -1,3 +1,23 @@
+<script setup lang="ts">
+import { currency } from "../currency";
+import { Dropdown, ListGroup, ListGroupItem } from "flowbite-vue";
+import {
+  Listbox,
+  ListboxLabel,
+  ListboxButton,
+  ListboxOptions,
+  ListboxOption,
+} from "@headlessui/vue";
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
+
+interface Props {
+  modelValue: string;
+}
+
+defineProps<Props>();
+defineEmits(["update:modelValue", "update"]);
+</script>
+
 <template>
   <Listbox
     :modelValue="modelValue"
@@ -68,23 +88,3 @@
     </div>
   </Listbox>
 </template>
-
-<script setup lang="ts">
-import { currency } from "../currency";
-import { Dropdown, ListGroup, ListGroupItem } from "flowbite-vue";
-import {
-  Listbox,
-  ListboxLabel,
-  ListboxButton,
-  ListboxOptions,
-  ListboxOption,
-} from "@headlessui/vue";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/vue/20/solid";
-
-interface Props {
-  modelValue: string;
-}
-
-defineProps<Props>();
-defineEmits(["update:modelValue", "update"]);
-</script>
