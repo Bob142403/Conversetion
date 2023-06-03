@@ -21,7 +21,7 @@ onMounted(async () => {
 
 function handleOnPage(ConversionToSec: boolean) {
   let secCurrency, secCurr, frCurrency, firCurr;
-  
+
   if (secondCurr.value != "RUS") {
     secCurrency = conversionInfo.value.Valute[secondCurr.value];
     secCurr = secCurrency.Nominal / secCurrency.Value;
@@ -39,6 +39,7 @@ function handleOnPage(ConversionToSec: boolean) {
     return;
   }
   answer *= first.value;
+  if (Number.isNaN(answer)) answer = 0;
 
   second.value = +answer.toFixed(2);
 }
@@ -51,15 +52,15 @@ function handleOnPage(ConversionToSec: boolean) {
       class="h-full w-full absolute"
     />
     <div
-      class="w-1/4 min-w-min rounded-lg bg-white/20 border-cyan-600 border-2 justify-center pt-5 px-5 backdrop-opacity-10 z-10 my-auto"
+      class="w-96 min-w-min rounded-lg bg-white/40 border-cyan-600 border-2 justify-center pt-5 px-5 backdrop-opacity-10 z-10 my-auto max-sm:w-11/12"
     >
-      <div class="text-white">
+      <div class="text-black">
         <p class="text-3xl font-medium dark:text-white mx-3 text-center">
           International Currency Converter
         </p>
       </div>
       <div class="mt-8">
-        <p class="font-bold text-white text-center">
+        <p class="font-bold text-black text-center">
           Exchange Rate: {{ first || 0 }} {{ firstCurr }} = {{ second || 0 }}
           {{ secondCurr }}
         </p>
@@ -89,7 +90,7 @@ function handleOnPage(ConversionToSec: boolean) {
             </div>
           </div>
         </div>
-        <p class="text-white my-4 text-center">
+        <p class="text-black my-4 text-center">
           Please Input Amount To Convert
         </p>
       </div>
